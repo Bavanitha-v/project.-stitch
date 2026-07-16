@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hospital Intake Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "outline": "#906f6c",
+                "on-secondary-fixed": "#001c3a",
+                "on-tertiary-container": "#f7fff1",
+                "on-error": "#ffffff",
+                "surface-variant": "#cfe6f2",
+                "inverse-primary": "#ffb4ac",
+                "on-primary-fixed": "#410002",
+                "inverse-on-surface": "#dff4ff",
+                "tertiary-fixed-dim": "#7ddc7a",
+                "error-container": "#ffdad6",
+                "secondary": "#005faf",
+                "on-tertiary-fixed-variant": "#005313",
+                "outline-variant": "#e4beb9",
+                "primary-container": "#db322f",
+                "surface": "#f3faff",
+                "tertiary-fixed": "#98f994",
+                "tertiary-container": "#268630",
+                "surface-container-low": "#e6f6ff",
+                "tertiary": "#006b1b",
+                "inverse-surface": "#1e333c",
+                "primary-fixed-dim": "#ffb4ac",
+                "on-primary-fixed-variant": "#93000d",
+                "on-tertiary-fixed": "#002204",
+                "surface-tint": "#bb171c",
+                "on-surface": "#071e27",
+                "on-error-container": "#93000a",
+                "surface-container-high": "#d5ecf8",
+                "primary-fixed": "#ffdad6",
+                "secondary-fixed": "#d4e3ff",
+                "error": "#ba1a1a",
+                "secondary-fixed-dim": "#a5c8ff",
+                "on-secondary-fixed-variant": "#004786",
+                "on-secondary-container": "#003567",
+                "surface-dim": "#c7dde9",
+                "surface-container-highest": "#cfe6f2",
+                "on-surface-variant": "#5b403d",
+                "secondary-container": "#54a0fe",
+                "on-primary-container": "#fffbff",
+                "on-background": "#071e27",
+                "on-primary": "#ffffff",
+                "surface-bright": "#f3faff",
+                "background": "#f3faff",
+                "on-secondary": "#ffffff",
+                "surface-container": "#dbf1fe",
+                "on-tertiary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "primary": "#b7131a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "unit": "4px",
+                "margin-mobile": "16px",
+                "margin-tablet": "24px",
+                "gutter": "16px",
+                "margin-desktop": "32px",
+                "touch-target-min": "48px"
+            },
+            "fontFamily": {
+                "label-bold": ["Inter"],
+                "body-md": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "title-md": ["Inter"],
+                "headline-lg": ["Inter"],
+                "data-mono": ["Inter"],
+                "display-lg": ["Inter"],
+                "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "data-mono": ["24px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .vitals-pulse {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-20">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile h-touch-target-min fixed top-0 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">medical_services</span>
+<h1 class="text-title-md font-title-md font-bold text-primary dark:text-primary-fixed">Incident Response</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6 items-center px-4">
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest px-3 py-1 rounded transition-colors text-label-bold font-label-bold">Dashboard</button>
+<button class="text-primary dark:text-primary-fixed font-bold hover:bg-surface-container-low dark:hover:bg-surface-container-highest px-3 py-1 rounded transition-colors text-label-bold font-label-bold">Patients</button>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest px-3 py-1 rounded transition-colors text-label-bold font-label-bold">Fleet</button>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest px-3 py-1 rounded transition-colors text-label-bold font-label-bold">Alerts</button>
+</div>
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">timer</span>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile md:px-margin-tablet lg:px-margin-desktop max-w-7xl mx-auto space-y-gutter">
+<!-- Hero Header: High Visibility Countdown -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="md:col-span-2 bg-surface-container-lowest border border-outline-variant p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-wider">Next Arrival</h2>
+<div class="flex items-baseline gap-4 mt-2">
+<span class="text-display-lg font-display-lg text-primary">04:22</span>
+<span class="text-title-md font-title-md text-secondary">AMB-702 (Trauma 1)</span>
+</div>
+</div>
+<div class="mt-6 flex gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-error-container text-on-error-container rounded-full">
+<span class="material-symbols-outlined text-xl">priority_high</span>
+<span class="text-label-bold font-label-bold">Triage Level: Critical</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-high text-on-surface rounded-full">
+<span class="material-symbols-outlined text-xl">location_on</span>
+<span class="text-label-bold font-label-bold">ETA: Central &amp; Main</span>
+</div>
+</div>
+</div>
+<div class="bg-secondary text-on-secondary p-6 rounded-xl flex flex-col items-center justify-center text-center">
+<h3 class="text-label-bold font-label-bold uppercase opacity-80">Assigned Bay</h3>
+<span class="text-[80px] leading-none font-bold mt-2">T-01</span>
+<p class="text-body-md mt-2">Emergency Department West Wing</p>
+</div>
+</section>
+<!-- Bento Grid Main Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left: Incoming Ambulances (4/12) -->
+<div class="lg:col-span-4 space-y-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h3 class="text-title-md font-title-md">Incoming Fleet</h3>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded">4 Active</span>
+</div>
+<div class="divide-y divide-outline-variant max-h-[600px] overflow-y-auto scroll-hide">
+<!-- Unit 1 -->
+<div class="p-4 hover:bg-surface-container transition-colors cursor-pointer border-l-4 border-error">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-bold font-label-bold">AMB-702</span>
+<span class="text-error font-bold">04:22</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-1">Severe Trauma - MVA</p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-error text-on-error rounded">Level 1</span>
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded">Bay T-01</span>
+</div>
+</div>
+<!-- Unit 2 -->
+<div class="p-4 hover:bg-surface-container transition-colors cursor-pointer border-l-4 border-tertiary-container">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-bold font-label-bold">AMB-415</span>
+<span class="text-on-surface font-bold">12:05</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-1">Chest Pain - Stable</p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-tertiary-container text-on-tertiary-container rounded">Level 3</span>
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded">Bay E-04</span>
+</div>
+</div>
+<!-- Unit 3 -->
+<div class="p-4 hover:bg-surface-container transition-colors cursor-pointer border-l-4 border-secondary-container">
+<div class="flex justify-between items-start mb-2">
+<span class="text-label-bold font-label-bold">AMB-229</span>
+<span class="text-on-surface font-bold">18:40</span>
+</div>
+<p class="text-body-md text-on-surface-variant line-clamp-1">Respiratory Distress</p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded">Level 2</span>
+<span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded">Bay T-03</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Live Vitals & Checklist (8/12) -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Live Vitals Monitoring -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-error rounded-full vitals-pulse"></div>
+<h3 class="text-title-md font-title-md">Live Patient Vitals (AMB-702)</h3>
+</div>
+<span class="text-label-bold font-label-bold text-on-surface-variant">Telemetry Active • 5G Stable</span>
+</div>
+<div class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- HR -->
+<div class="p-4 bg-surface-container rounded-lg border-l-4 border-error">
+<span class="text-label-bold font-label-bold text-on-surface-variant text-xs uppercase">HR (BPM)</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-data-mono font-data-mono text-error">128</span>
+<span class="material-symbols-outlined text-error text-sm">trending_up</span>
+</div>
+</div>
+<!-- BP -->
+<div class="p-4 bg-surface-container rounded-lg border-l-4 border-secondary">
+<span class="text-label-bold font-label-bold text-on-surface-variant text-xs uppercase">BP (mmHg)</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-data-mono font-data-mono">90/62</span>
+<span class="material-symbols-outlined text-secondary text-sm">trending_down</span>
+</div>
+</div>
+<!-- SPO2 -->
+<div class="p-4 bg-surface-container rounded-lg border-l-4 border-tertiary-container">
+<span class="text-label-bold font-label-bold text-on-surface-variant text-xs uppercase">SpO2 (%)</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-data-mono font-data-mono">94</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">horizontal_rule</span>
+</div>
+</div>
+<!-- TEMP -->
+<div class="p-4 bg-surface-container rounded-lg border-l-4 border-secondary">
+<span class="text-label-bold font-label-bold text-on-surface-variant text-xs uppercase">Temp (°C)</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-data-mono font-data-mono">36.8</span>
+<span class="material-symbols-outlined text-secondary text-sm">horizontal_rule</span>
+</div>
+</div>
+</div>
+<!-- Waveform Animation Placeholder -->
+<div class="h-32 bg-on-surface relative overflow-hidden">
+
+<div class="absolute inset-0 flex items-center px-6 pointer-events-none">
+<span class="text-tertiary-fixed-dim text-xs font-mono">ECG LEAD II - 25mm/s</span>
+</div>
+</div>
+</div>
+<!-- AI Preparation Checklist -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-primary-container/10 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h3 class="text-title-md font-title-md text-primary">AI-Generated Preparation Checklist</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded border-2 border-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary hidden" id="check1">check</span>
+</div>
+<div class="flex-1">
+<p class="text-label-bold font-label-bold">Clear Trauma Bay 1</p>
+<p class="text-xs text-on-surface-variant">Ensure all portable monitors are synced to central hub.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded border-2 border-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary">check</span>
+</div>
+<div class="flex-1">
+<p class="text-label-bold font-label-bold">Blood Bank: Type O- Standby</p>
+<p class="text-xs text-on-surface-variant">Patient identified as universal recipient risk (MVA Protocol).</p>
+</div>
+</li>
+</ul>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded border-2 border-primary flex items-center justify-center shrink-0"></div>
+<div class="flex-1">
+<p class="text-label-bold font-label-bold">Notify Surgical Resident on Call</p>
+<p class="text-xs text-on-surface-variant">Possible thoracic intervention required based on field ultrasound.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded border-2 border-primary flex items-center justify-center shrink-0"></div>
+<div class="flex-1">
+<p class="text-label-bold font-label-bold">Intubation Kit Prepared</p>
+<p class="text-xs text-on-surface-variant">Airway compromise suspected by paramedic report.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="p-4 bg-surface-container-low border-t border-outline-variant text-right">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold text-label-bold hover:opacity-90 active:scale-95 transition-all">Confirm All Teams Ready</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-bold font-label-bold">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">personal_injury</span>
+<span class="text-label-bold font-label-bold">Patients</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">ambulance</span>
+<span class="text-label-bold font-label-bold">Fleet</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-label-bold font-label-bold">Alerts</span>
+</div>
+</nav>
+<script>
+        // Simple interactivity for the checklist
+        document.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', () => {
+                const check = item.querySelector('.material-symbols-outlined');
+                const box = item.querySelector('div');
+                if (check.classList.contains('hidden')) {
+                    check.classList.remove('hidden');
+                    box.classList.add('bg-primary-container');
+                    box.classList.add('border-primary-container');
+                } else {
+                    check.classList.add('hidden');
+                    box.classList.remove('bg-primary-container');
+                    box.classList.remove('border-primary-container');
+                }
+            });
+        });
+
+        // Dynamic countdown simulation
+        let time = 262; // 4:22 in seconds
+        const countdownElement = document.querySelector('.text-display-lg');
+        
+        setInterval(() => {
+            if (time > 0) {
+                time--;
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+    </script>
+</body></html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Incident Response - Emergency Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "outline": "#906f6c",
+                "on-secondary-fixed": "#001c3a",
+                "on-tertiary-container": "#f7fff1",
+                "on-error": "#ffffff",
+                "surface-variant": "#cfe6f2",
+                "inverse-primary": "#ffb4ac",
+                "on-primary-fixed": "#410002",
+                "inverse-on-surface": "#dff4ff",
+                "tertiary-fixed-dim": "#7ddc7a",
+                "error-container": "#ffdad6",
+                "secondary": "#005faf",
+                "on-tertiary-fixed-variant": "#005313",
+                "outline-variant": "#e4beb9",
+                "primary-container": "#db322f",
+                "surface": "#f3faff",
+                "tertiary-fixed": "#98f994",
+                "tertiary-container": "#268630",
+                "surface-container-low": "#e6f6ff",
+                "tertiary": "#006b1b",
+                "inverse-surface": "#1e333c",
+                "primary-fixed-dim": "#ffb4ac",
+                "on-primary-fixed-variant": "#93000d",
+                "on-tertiary-fixed": "#002204",
+                "surface-tint": "#bb171c",
+                "on-surface": "#071e27",
+                "on-error-container": "#93000a",
+                "surface-container-high": "#d5ecf8",
+                "primary-fixed": "#ffdad6",
+                "secondary-fixed": "#d4e3ff",
+                "error": "#ba1a1a",
+                "secondary-fixed-dim": "#a5c8ff",
+                "on-secondary-fixed-variant": "#004786",
+                "on-secondary-container": "#003567",
+                "surface-dim": "#c7dde9",
+                "surface-container-highest": "#cfe6f2",
+                "on-surface-variant": "#5b403d",
+                "secondary-container": "#54a0fe",
+                "on-primary-container": "#fffbff",
+                "on-background": "#071e27",
+                "on-primary": "#ffffff",
+                "surface-bright": "#f3faff",
+                "background": "#f3faff",
+                "on-secondary": "#ffffff",
+                "surface-container": "#dbf1fe",
+                "on-tertiary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "primary": "#b7131a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "unit": "4px",
+                "margin-mobile": "16px",
+                "margin-tablet": "24px",
+                "gutter": "16px",
+                "margin-desktop": "32px",
+                "touch-target-min": "48px"
+            },
+            "fontFamily": {
+                "label-bold": ["Inter"],
+                "body-md": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "title-md": ["Inter"],
+                "headline-lg": ["Inter"],
+                "data-mono": ["Inter"],
+                "display-lg": ["Inter"],
+                "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "data-mono": ["24px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .emergency-pulse {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(183, 19, 26, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(183, 19, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 19, 26, 0); }
+        }
+        .scanning-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #54a0fe, transparent);
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(400%); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline flex justify-between items-center px-margin-mobile h-touch-target-min">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="medical_services">medical_services</span>
+<h1 class="text-title-md font-title-md font-bold text-primary dark:text-primary-fixed">Incident Response</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-label-bold font-label-bold text-on-surface">5G ACTIVE</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface-variant" data-icon="timer">timer</span>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile flex flex-col gap-6 max-w-4xl mx-auto">
+<!-- Hero: Report Emergency -->
+<section class="mt-4">
+<button class="emergency-pulse w-full h-32 bg-primary hover:bg-primary-container text-on-primary rounded-xl flex flex-col items-center justify-center gap-2 transition-all active:scale-95 duration-150 ease-in-out shadow-lg">
+<span class="material-symbols-outlined text-[48px]" data-icon="emergency" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-wider">Report Emergency</span>
+</button>
+</section>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+<!-- Quick Selection (8 cols) -->
+<div class="md:col-span-8 flex flex-col gap-4">
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-tight">Select Incident Type</h2>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+<!-- Incident Type Card -->
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="car_crash">car_crash</span>
+<span class="text-label-bold font-label-bold">Accident</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="cardiology">cardiology</span>
+<span class="text-label-bold font-label-bold">Cardiac</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="personal_injury">personal_injury</span>
+<span class="text-label-bold font-label-bold">Trauma</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="local_fire_department">local_fire_department</span>
+<span class="text-label-bold font-label-bold">Fire/Burn</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="pulmonology">pulmonology</span>
+<span class="text-label-bold font-label-bold">Respiratory</span>
+</button>
+<button class="group flex flex-col items-center justify-center p-4 bg-surface-container-lowest border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors min-h-[100px]">
+<span class="material-symbols-outlined text-primary mb-2 text-[32px]" data-icon="more_horiz">more_horiz</span>
+<span class="text-label-bold font-label-bold">Other</span>
+</button>
+</div>
+<!-- Location Map Preview -->
+<div class="relative w-full h-48 bg-surface-container-high rounded-xl overflow-hidden border border-outline-variant">
+<div class="w-full h-full bg-cover bg-center opacity-80" data-location="San Francisco" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRLZorT5iKXhmWAIeFG_ks3JIue_YaIYBm5WrR7GizxHDo-2gj1vT4TT4OfhtaCmRkecYLA6bEgzEPAiXxH76O0rUAg1DMVlJE_A95rHul-_79m2sqMuhHUyZA9hxJ_ehulec0yPjqIYC7BBsszxY0qG8LgXlBIgWoFAF8OT7XU2e8rluD2zeBAkIeNIPBJ22FDlQMWtx4ESpnLAaOSKWEZJT2o2naf-tbBOyeoXRXc1vN54isB6JETC-15emYVv1A3LzZlAOfWbHo')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<div class="text-white">
+<p class="text-label-bold font-label-bold opacity-80">CURRENT LOCATION</p>
+<p class="font-bold">Market St & 4th St, SF</p>
+</div>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-full text-label-bold font-label-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="my_location">my_location</span>
+                            Refine
+                        </button>
+</div>
+</div>
+</div>
+<!-- AI Analysis Sidebar (4 cols) -->
+<aside class="md:col-span-4 flex flex-col gap-4">
+<div class="p-5 bg-surface-container-low border-l-4 border-secondary-container rounded-r-xl relative overflow-hidden h-full flex flex-col gap-4">
+<div class="scanning-line absolute top-0 left-0 w-full opacity-30"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="psychology">psychology</span>
+<h3 class="text-label-bold font-label-bold text-on-surface uppercase tracking-tight">AI Co-Pilot Analysis</h3>
+</div>
+<div class="flex flex-col gap-4 flex-grow">
+<!-- Step 1 -->
+<div class="flex gap-3 items-start opacity-100">
+<div class="mt-1 w-2 h-2 rounded-full bg-tertiary shrink-0"></div>
+<div>
+<p class="text-label-bold font-label-bold text-tertiary">Analyzing severity...</p>
+<p class="text-[12px] text-on-surface-variant leading-tight">Processing report patterns against historical emergency data.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-3 items-start opacity-100 animate-pulse">
+<div class="mt-1 w-2 h-2 rounded-full bg-secondary-container shrink-0"></div>
+<div>
+<p class="text-label-bold font-label-bold text-secondary">Predicting resources...</p>
+<p class="text-[12px] text-on-surface-variant leading-tight">Identifying nearest specialized trauma units and ETA.</p>
+</div>
+</div>
+<!-- Step 3 (Pending) -->
+<div class="flex gap-3 items-start opacity-40">
+<div class="mt-1 w-2 h-2 rounded-full bg-outline shrink-0"></div>
+<div>
+<p class="text-label-bold font-label-bold">Optimizing route...</p>
+<p class="text-[12px] text-on-surface-variant leading-tight">Awaiting incident confirmation to calculate live traffic.</p>
+</div>
+</div>
+</div>
+<!-- AI Insight Card Small -->
+<div class="mt-auto p-3 bg-white border border-outline-variant rounded-lg">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="info">info</span>
+<span class="text-[11px] font-bold text-on-surface-variant uppercase">Recommendation</span>
+</div>
+<p class="text-[13px] font-medium text-on-surface">Dispatch Level 2 EMS with Advanced Life Support equipment.</p>
+</div>
+</div>
+</aside>
+</div>
+<!-- Additional Actions -->
+<div class="flex flex-col gap-4">
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-tight">Detailed Inputs</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container border border-outline-variant rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="group">group</span>
+<span class="text-body-md font-body-md">Victims Count</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-on-surface-variant">-</button>
+<span class="font-bold text-lg">1</span>
+<button class="w-8 h-8 rounded-full border border-outline flex items-center justify-center text-on-surface-variant">+</button>
+</div>
+</div>
+<div class="p-4 bg-surface-container border border-outline-variant rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="mic">mic</span>
+<span class="text-body-md font-body-md">Voice Description</span>
+</div>
+<button class="text-secondary font-bold text-label-bold">START RECORDING</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline flex justify-around items-center px-4 py-2">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-bold font-label-bold">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="personal_injury">personal_injury</span>
+<span class="text-label-bold font-label-bold">Patients</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="ambulance">ambulance</span>
+<span class="text-label-bold font-label-bold">Fleet</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 scale-90 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="text-label-bold font-label-bold">Alerts</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Toggle active state of incident cards
+        document.querySelectorAll('.group.flex-col').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.group.flex-col').forEach(c => c.classList.remove('bg-secondary-container', 'border-secondary'));
+                card.classList.add('bg-secondary-container', 'border-secondary');
+            });
+        });
+
+        // Simple vibration simulation on emergency button click
+        const emergencyBtn = document.querySelector('.emergency-pulse');
+        emergencyBtn.addEventListener('click', () => {
+            if ("vibrate" in navigator) {
+                navigator.vibrate([100, 30, 100, 30, 100]);
+            }
+            emergencyBtn.innerHTML = `
+                <span class="material-symbols-outlined text-[48px] animate-spin" data-icon="progress_activity">progress_activity</span>
+                <span class="text-headline-lg-mobile font-headline-lg-mobile uppercase tracking-wider">Transmitting...</span>
+            `;
+            setTimeout(() => {
+                alert("Emergency reported. Assistance is on the way.");
+                location.reload();
+            }, 2000);
+        });
+    </script>
+</body></html>

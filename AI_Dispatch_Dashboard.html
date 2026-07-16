@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Incident Response - Dispatch &amp; Fleet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#906f6c",
+                    "on-secondary-fixed": "#001c3a",
+                    "on-tertiary-container": "#f7fff1",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#cfe6f2",
+                    "inverse-primary": "#ffb4ac",
+                    "on-primary-fixed": "#410002",
+                    "inverse-on-surface": "#dff4ff",
+                    "tertiary-fixed-dim": "#7ddc7a",
+                    "error-container": "#ffdad6",
+                    "secondary": "#005faf",
+                    "on-tertiary-fixed-variant": "#005313",
+                    "outline-variant": "#e4beb9",
+                    "primary-container": "#db322f",
+                    "surface": "#f3faff",
+                    "tertiary-fixed": "#98f994",
+                    "tertiary-container": "#268630",
+                    "surface-container-low": "#e6f6ff",
+                    "tertiary": "#006b1b",
+                    "inverse-surface": "#1e333c",
+                    "primary-fixed-dim": "#ffb4ac",
+                    "on-primary-fixed-variant": "#93000d",
+                    "on-tertiary-fixed": "#002204",
+                    "surface-tint": "#bb171c",
+                    "on-surface": "#071e27",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#d5ecf8",
+                    "primary-fixed": "#ffdad6",
+                    "secondary-fixed": "#d4e3ff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#a5c8ff",
+                    "on-secondary-fixed-variant": "#004786",
+                    "on-secondary-container": "#003567",
+                    "surface-dim": "#c7dde9",
+                    "surface-container-highest": "#cfe6f2",
+                    "on-surface-variant": "#5b403d",
+                    "secondary-container": "#54a0fe",
+                    "on-primary-container": "#fffbff",
+                    "on-background": "#071e27",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f3faff",
+                    "background": "#f3faff",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#dbf1fe",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#b7131a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "margin-tablet": "24px",
+                    "gutter": "16px",
+                    "margin-desktop": "32px",
+                    "touch-target-min": "48px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "title-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "data-mono": ["24px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vitals-chip-active {
+            transition: all 0.3s ease;
+        }
+        .vitals-chip-active:hover {
+            transform: translateY(-2px);
+        }
+        /* Custom scrollbar for clinical look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cfe6f2; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #906f6c; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-touch-target-min">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="medical_services">medical_services</span>
+<h1 class="text-title-md font-title-md font-bold text-primary">Incident Response</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-4 items-center">
+<span class="text-label-bold font-label-bold text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> 5G Active
+                </span>
+<span class="text-label-bold font-label-bold text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="satellite_alt">satellite_alt</span> Link-12
+                </span>
+</div>
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 rounded-full transition-transform active:scale-95" data-icon="timer">timer</button>
+</div>
+</header>
+<!-- Main Content Area: Responsive Grid -->
+<main class="flex-grow pt-16 pb-20 md:pb-0 flex flex-col md:flex-row h-screen overflow-hidden">
+<!-- Left Sidebar: Pending Emergencies & Fleet List -->
+<aside class="w-full md:w-80 lg:w-96 bg-white border-r border-outline-variant overflow-y-auto flex flex-col shrink-0">
+<div class="p-margin-mobile border-b border-outline-variant bg-surface-container-low">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-wider">Pending Alerts</h2>
+<span class="bg-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold">4 LIVE</span>
+</div>
+<!-- Priority Emergency Card -->
+<div class="bg-error-container border-2 border-error p-3 rounded-xl mb-3 cursor-pointer hover:brightness-95 transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="text-primary font-bold text-label-bold">AI Priority: 9.8</span>
+<span class="text-[10px] text-on-error-container font-mono">02:41 Elapsed</span>
+</div>
+<p class="text-on-error-container font-bold mb-1">Cardiac Arrest - Zone 4</p>
+<p class="text-[12px] text-on-error-container opacity-80">82 year old male, unresponsive. Caller performing CPR.</p>
+</div>
+<!-- Secondary Emergency Card -->
+<div class="bg-white border border-outline-variant p-3 rounded-xl cursor-pointer hover:border-secondary transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="text-tertiary font-bold text-label-bold">AI Priority: 6.2</span>
+<span class="text-[10px] text-on-surface-variant font-mono">05:12 Elapsed</span>
+</div>
+<p class="text-on-surface font-bold mb-1">MVA - Multi Vehicle</p>
+<p class="text-[12px] text-on-surface-variant">Intersection 5th &amp; Main. 2 ambulatory patients reported.</p>
+</div>
+</div>
+<!-- Fleet Status -->
+<div class="p-margin-mobile flex-grow overflow-y-auto">
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-wider mb-4">Fleet Status</h2>
+<div class="space-y-3">
+<!-- Available Unit -->
+<div class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">
+<div class="w-2 h-10 bg-tertiary rounded-full"></div>
+<div class="flex-grow">
+<div class="flex justify-between">
+<span class="font-bold text-on-surface">MED-14</span>
+<span class="text-[11px] text-tertiary font-bold uppercase">Available</span>
+</div>
+<span class="text-[12px] text-on-surface-variant">Stn 02 • Fuel: 88%</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="ambulance">ambulance</span>
+</div>
+<!-- Busy Unit -->
+<div class="flex items-center gap-3 p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors">
+<div class="w-2 h-10 bg-error rounded-full"></div>
+<div class="flex-grow">
+<div class="flex justify-between">
+<span class="font-bold text-on-surface">MED-09</span>
+<span class="text-[11px] text-error font-bold uppercase">On Scene</span>
+</div>
+<span class="text-[12px] text-on-surface-variant">Case #8821 • ETA Hosp: 12m</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="ambulance">ambulance</span>
+</div>
+<!-- Hospital Capacity Indicators -->
+<div class="mt-8 pt-4 border-t border-outline-variant">
+<h2 class="text-label-bold font-label-bold text-on-surface-variant uppercase tracking-wider mb-4">Hospital Beds</h2>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="font-bold">General Memorial</span>
+<span class="text-error font-bold">85% Full</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="font-bold">City Trauma Center</span>
+<span class="text-tertiary font-bold">42% Full</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 42%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center: Interactive Map Area -->
+<section class="flex-grow relative bg-surface-container">
+<!-- Map Simulation Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full grayscale opacity-40 mix-blend-multiply" data-location="New York City" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDYqNf_pnFrgTz8-xpq-MtUGyMoFBdB9bp4QWrnfInYRt3hdL9qZYiSoaeXHO0_Af-C9o9SFBafYX1FbAdq_JH8X_Rnt9oOX1s2Rjx5mNfQ7Vo8G5VCT12RjddlmbWZyENjBXQN7hdOUnV2x3gdRmC1p2q1AmBuqKYLWAurTVNIOaTE9_rx3janoNg-O_2jPSdlUdAJ0976T8O26DuLoAPMtazXUdIF4jsA07mPADOd2nEBbtEfsCskOU2tWvsjD9CJ6lditqyWjvrN')"></div>
+<!-- Mock Map Elements -->
+<div class="absolute top-1/4 left-1/3 group">
+<div class="relative">
+<div class="absolute -top-10 -left-12 bg-white px-2 py-1 rounded shadow-sm text-[10px] font-bold border border-outline whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">MED-14 (IDLE)</div>
+<span class="material-symbols-outlined text-tertiary text-4xl drop-shadow-md cursor-pointer animate-pulse" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-1/3 right-1/4">
+<span class="material-symbols-outlined text-error text-4xl drop-shadow-md cursor-pointer" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="absolute top-1/2 left-1/2">
+<span class="material-symbols-outlined text-secondary text-5xl drop-shadow-lg" data-icon="emergency" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</div>
+</div>
+<!-- Floating Controls -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+<button class="w-10 h-10 bg-white border border-outline-variant flex items-center justify-center rounded-lg shadow-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 bg-white border border-outline-variant flex items-center justify-center rounded-lg shadow-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<button class="w-10 h-10 bg-white border border-outline-variant flex items-center justify-center rounded-lg shadow-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+</button>
+</div>
+<!-- Recommended Assignment Popup (AI Insight Card) -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md z-20 px-4" id="ai-recommendation">
+<div class="bg-white border-l-4 border-secondary shadow-2xl rounded-xl p-5 transform transition-all hover:scale-[1.01]">
+<div class="flex items-start gap-4">
+<div class="bg-secondary-container p-3 rounded-full">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="psychology">psychology</span>
+</div>
+<div class="flex-grow">
+<h3 class="text-label-bold font-label-bold text-secondary flex items-center gap-2">
+                                AI RECOMMENDED ASSIGNMENT
+                                <span class="material-symbols-outlined text-[16px]" data-icon="verified">verified</span>
+</h3>
+<p class="text-body-md font-body-md font-bold text-on-surface mt-1">Assign MED-14 to Cardiac Call #8892</p>
+<p class="text-[12px] text-on-surface-variant mt-2">
+<span class="font-bold">Reasoning:</span> MED-14 is 1.2 miles away (ETA 4m). City Trauma Center has specialty cardiology bay available (Wait: 0m).
+                            </p>
+<div class="flex gap-3 mt-4">
+<button class="flex-grow bg-secondary text-white py-2 rounded-lg font-bold text-label-bold hover:brightness-110 active:scale-95 transition-all">
+                                    Confirm Dispatch
+                                </button>
+<button class="px-4 py-2 border border-outline-variant rounded-lg font-bold text-label-bold text-on-surface-variant hover:bg-surface-container-low transition-all">
+                                    Details
+                                </button>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors" data-icon="close" onclick="document.getElementById('ai-recommendation').style.display='none'">close</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container border-t border-outline-variant flex justify-around items-center px-4 py-2">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-bold uppercase">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="personal_injury">personal_injury</span>
+<span class="text-[10px] font-label-bold uppercase">Patients</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90">
+<span class="material-symbols-outlined" data-icon="ambulance">ambulance</span>
+<span class="text-[10px] font-label-bold uppercase">Fleet</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="text-[10px] font-label-bold uppercase">Alerts</span>
+</div>
+</nav>
+<!-- Desktop Version of Side Nav (Integrated into TopBar or Side) -->
+<script>
+        // Micro-interactions and simulation logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simulate live data updates
+            const fuelCounters = document.querySelectorAll('.fuel-level');
+            setInterval(() => {
+                // Subtle visual pulses for live feel
+            }, 5000);
+
+            // Close recommendation popup logic
+            const closeBtn = document.querySelector('[data-icon="close"]');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    const card = e.target.closest('#ai-recommendation');
+                    card.classList.add('opacity-0', 'translate-y-10');
+                    setTimeout(() => card.remove(), 300);
+                });
+            }
+        });
+    </script>
+</body></html>

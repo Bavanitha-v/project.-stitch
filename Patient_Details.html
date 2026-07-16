@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Incident Response - Patient Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#906f6c",
+                    "on-secondary-fixed": "#001c3a",
+                    "on-tertiary-container": "#f7fff1",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#cfe6f2",
+                    "inverse-primary": "#ffb4ac",
+                    "on-primary-fixed": "#410002",
+                    "inverse-on-surface": "#dff4ff",
+                    "tertiary-fixed-dim": "#7ddc7a",
+                    "error-container": "#ffdad6",
+                    "secondary": "#005faf",
+                    "on-tertiary-fixed-variant": "#005313",
+                    "outline-variant": "#e4beb9",
+                    "primary-container": "#db322f",
+                    "surface": "#f3faff",
+                    "tertiary-fixed": "#98f994",
+                    "tertiary-container": "#268630",
+                    "surface-container-low": "#e6f6ff",
+                    "tertiary": "#006b1b",
+                    "inverse-surface": "#1e333c",
+                    "primary-fixed-dim": "#ffb4ac",
+                    "on-primary-fixed-variant": "#93000d",
+                    "on-tertiary-fixed": "#002204",
+                    "surface-tint": "#bb171c",
+                    "on-surface": "#071e27",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#d5ecf8",
+                    "primary-fixed": "#ffdad6",
+                    "secondary-fixed": "#d4e3ff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#a5c8ff",
+                    "on-secondary-fixed-variant": "#004786",
+                    "on-secondary-container": "#003567",
+                    "surface-dim": "#c7dde9",
+                    "surface-container-highest": "#cfe6f2",
+                    "on-surface-variant": "#5b403d",
+                    "secondary-container": "#54a0fe",
+                    "on-primary-container": "#fffbff",
+                    "on-background": "#071e27",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f3faff",
+                    "background": "#f3faff",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#dbf1fe",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#b7131a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "margin-tablet": "24px",
+                    "gutter": "16px",
+                    "margin-desktop": "32px",
+                    "touch-target-min": "48px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "title-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "data-mono": ["24px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .clinical-card {
+            background-color: #ffffff;
+            border: 1px solid #E0E4E6;
+            transition: border-color 0.2s ease;
+        }
+        .clinical-card:hover {
+            border-color: #005faf;
+        }
+        .ai-accent {
+            border-left: 4px solid #005faf;
+        }
+        .pulse-red {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        .wave-container {
+            height: 60px;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        /* Custom scrollbar for medical interfaces */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f3faff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c7dde9;
+            border-radius: 3px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile h-touch-target-min z-50 sticky">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="medical_services">medical_services</span>
+<h1 class="text-title-md font-title-md font-bold text-primary">Incident Response</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6">
+<button class="text-primary font-bold text-label-bold">Dashboard</button>
+<button class="text-on-surface-variant text-label-bold hover:bg-surface-container-low px-2 py-1 rounded">Patients</button>
+<button class="text-on-surface-variant text-label-bold hover:bg-surface-container-low px-2 py-1 rounded">Fleet</button>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="timer">timer</span>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet py-8">
+<!-- Patient Header & Status -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span>Active Incidents</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-semibold">Incident #492-B</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-3">
+                    John Doe, 42
+                    <span class="bg-secondary-container text-on-secondary-container text-label-bold px-3 py-1 rounded-full text-sm">STABLE</span>
+</h2>
+<p class="text-on-surface-variant mt-1">Male • 84kg • No Priority Comorbidities Reported</p>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="flex-1 md:flex-none flex flex-col items-end">
+<span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Live Link</span>
+<div class="flex items-center gap-2">
+<span class="text-tertiary font-bold text-label-bold">SHARING ACTIVE</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-6 h-touch-target-min rounded-lg font-label-bold flex items-center gap-2 active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="emergency_share">emergency_share</span>
+                    HOSPITAL HANDOVER
+                </button>
+</div>
+</div>
+<!-- Main Dashboard Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Vitals Monitoring (8 cols) -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Real-time Vitals Grid -->
+<div class="vitals-grid">
+<!-- Heart Rate -->
+<div class="clinical-card rounded-xl p-4 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant text-label-bold uppercase">HR</span>
+<span class="material-symbols-outlined text-secondary" data-icon="favorite">favorite</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg text-on-surface leading-none">78</span>
+<span class="text-on-surface-variant text-sm font-bold">BPM</span>
+</div>
+<div class="wave-container" id="hr-wave">
+<canvas id="hr-canvas"></canvas>
+</div>
+</div>
+<!-- Blood Pressure -->
+<div class="clinical-card rounded-xl p-4 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant text-label-bold uppercase">BP</span>
+<span class="material-symbols-outlined text-secondary" data-icon="rebase_edit">rebase_edit</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg text-on-surface leading-none">118/76</span>
+<span class="text-on-surface-variant text-sm font-bold">mmHg</span>
+</div>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-xs" data-icon="trending_flat">trending_flat</span>
+<span class="text-xs font-bold">Normal Range</span>
+</div>
+</div>
+<!-- SpO2 -->
+<div class="clinical-card rounded-xl p-4 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant text-label-bold uppercase">SpO2</span>
+<span class="material-symbols-outlined text-secondary" data-icon="air">air</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg text-on-surface leading-none">98</span>
+<span class="text-on-surface-variant text-sm font-bold">%</span>
+</div>
+<div class="wave-container" id="spo2-wave">
+<canvas id="spo2-canvas"></canvas>
+</div>
+</div>
+<!-- Temp -->
+<div class="clinical-card rounded-xl p-4 flex flex-col justify-between h-40 border-l-4 border-l-error">
+<div class="flex justify-between items-start">
+<span class="text-on-surface-variant text-label-bold uppercase">Temp</span>
+<span class="material-symbols-outlined text-error pulse-red" data-icon="thermostat">thermostat</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg text-error leading-none">38.4</span>
+<span class="text-on-surface-variant text-sm font-bold">°C</span>
+</div>
+<div class="text-error text-xs font-bold">Pyrexia Detected</div>
+</div>
+</div>
+<!-- Live Vitals Graph Card -->
+<div class="clinical-card rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-title-md font-title-md">Vitals Timeline (Last 30m)</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-lg text-sm font-bold">15m</button>
+<button class="px-3 py-1 bg-secondary text-on-secondary rounded-lg text-sm font-bold">30m</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-lg text-sm font-bold">1h</button>
+</div>
+</div>
+<div class="h-64 w-full bg-surface-container-low rounded-lg flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(#906f6c 1px, transparent 1px), linear-gradient(90deg, #906f6c 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+<div class="z-10 bg-white/80 backdrop-blur px-4 py-2 rounded-lg border border-outline-variant shadow-sm text-sm">
+<span class="font-bold text-secondary">Interactive Grid:</span> Long-press to mark event
+                        </div>
+</div>
+</div>
+<!-- Documentation & Media -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Photo Upload -->
+<div class="clinical-card rounded-xl p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-title-md font-title-md">Injury Documentation</h3>
+<button class="text-secondary font-bold text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="add_a_photo">add_a_photo</span>
+                                CAPTURE
+                            </button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square bg-surface-container-highest rounded-lg overflow-hidden border border-outline-variant relative group cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A clinical close-up photograph of a sterilized minor laceration on a patient's arm, captured in bright medical-grade lighting. The background is a clean ambulance interior. The visual style is high-fidelity, professional, and utilitarian, emphasizing clarity for medical assessment. Minimalist framing with clinical blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_f3mAz8HHqDx2HEdpBVEcMN34qdMUmtKGR9Ne-_K2RYU3te_-eOF9NXCjW9iodftGR--2ZXM8FEuqF-q71z_bYMPMj6yKnzo6cKj7P0HE6w1Bvc26PZHFh1gZonW1NTCrL2Q1zNZ55_6br3TiBYmjaQGDhna3CJOI1syugF1W0_7V09lnzIW7ioGivqGFWrD4yZvK_WEajrXoptjJ3nu-FfkgJb-Oox5BS3UIuXbUdroLgUcBspWasS2pozhOIlBsHQLD2TlbdpuP"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-white" data-icon="zoom_in">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-highest rounded-lg overflow-hidden border border-outline-variant relative group cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A wide-angle medical scene photo showing an emergency responder's hands placing a cardiac monitor on a patient. Soft morning light enters the ambulance window, creating a serene but urgent atmosphere. The palette is dominated by whites, clinical blues, and grays with a sharp focus on the medical device's display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1bvRbEwLqaOqMK-FuRGw29KRHwSuR3VF26_gZHwCfZ0y5egcF7u_6ktnhPIIISNq8PNMLedB8L4gGU5eJp1W-Fkfq-mvt2F9_orBI2NSVg4fSDyKveFD0s8SsCBhDpTXbkMJAqMvR14ooCMPwVTuDCtGfe9a-cT46m0Iq9VQ6vASmgZqSTpps3wTUKp-DHYIeDWGFNPVdCejPv91F0jZCbyZENNRoTv-aW7oftELu-z_hJK5o82P82lm07T8AvfVOSzzOkRZGU2Th"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-white" data-icon="zoom_in">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square rounded-lg border-2 border-dashed border-outline-variant flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-3xl" data-icon="upload_file">upload_file</span>
+<span class="text-[10px] font-bold uppercase mt-1">Add New</span>
+</div>
+</div>
+</div>
+<!-- Quick Notes -->
+<div class="clinical-card rounded-xl p-6">
+<h3 class="text-title-md font-title-md mb-4">On-Scene Notes</h3>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container rounded-lg text-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-xs uppercase">Para-Med ID: 4421</span>
+<span class="text-xs text-on-surface-variant">14:22</span>
+</div>
+<p>Patient conscious but disoriented. Initial trauma assessment negative for internal bleeding.</p>
+</div>
+<textarea class="w-full bg-white border-outline-variant rounded-lg p-3 text-sm focus:ring-secondary focus:border-secondary" placeholder="Type or use voice-to-text..." rows="3"></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Insights & History (4 cols) -->
+<aside class="lg:col-span-4 space-y-gutter">
+<!-- AI Summary Card -->
+<div class="clinical-card ai-accent rounded-xl p-6 bg-surface-bright">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="smart_toy">smart_toy</span>
+<h3 class="text-title-md font-title-md text-secondary">AI Medical Insight</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-secondary-container/20 rounded-lg">
+<p class="text-sm font-body-md text-on-surface">
+                                Based on current elevated HR and Temp, AI suggests possible early-stage sepsis or severe inflammatory response. 
+                            </p>
+<div class="mt-3 flex gap-2">
+<button class="bg-secondary text-on-secondary px-3 py-1 rounded text-xs font-bold">Order Lab Link</button>
+<button class="bg-white border border-secondary text-secondary px-3 py-1 rounded text-xs font-bold">Dismiss</button>
+</div>
+</div>
+<div>
+<span class="text-xs font-bold text-on-surface-variant uppercase block mb-2">Likely Prognosis</span>
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 85%"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="text-[10px] font-bold">Stable Recovery</span>
+<span class="text-[10px] font-bold">85%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Patient History -->
+<div class="clinical-card rounded-xl p-6">
+<h3 class="text-title-md font-title-md mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="history_edu">history_edu</span>
+                        Medical History
+                    </h3>
+<div class="space-y-4">
+<div>
+<label class="text-[10px] font-bold text-error uppercase block mb-1">Critical Allergies</label>
+<div class="flex flex-wrap gap-2">
+<span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs font-bold">Penicillin</span>
+<span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs font-bold">Peanuts</span>
+</div>
+</div>
+<div>
+<label class="text-[10px] font-bold text-on-surface-variant uppercase block mb-1">Current Medications</label>
+<ul class="text-sm space-y-1 list-disc list-inside">
+<li>Lisinopril (10mg Daily)</li>
+<li>Metformin</li>
+</ul>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<label class="text-[10px] font-bold text-on-surface-variant uppercase block mb-2">Previous Admissions</label>
+<div class="space-y-3">
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline mt-1.5"></div>
+<div class="w-0.5 flex-1 bg-outline-variant"></div>
+</div>
+<div class="pb-3">
+<div class="text-xs font-bold">Mar 2023</div>
+<div class="text-xs">Appendectomy - City General</div>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline mt-1.5"></div>
+</div>
+<div>
+<div class="text-xs font-bold">Jan 2021</div>
+<div class="text-xs">Fractured Ulna - Sports Injury</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline-variant rounded-lg text-sm font-bold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+                        FULL RECORD (EMR)
+                    </button>
+</div>
+<!-- Incident Location Context -->
+<div class="clinical-card rounded-xl p-6 overflow-hidden">
+<h3 class="text-title-md font-title-md mb-4">Pickup Location</h3>
+<div class="aspect-video bg-surface-container rounded-lg mb-4 overflow-hidden relative">
+<div class="w-full h-full bg-cover bg-center" data-location="New York" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDYqNf_pnFrgTz8-xpq-MtUGyMoFBdB9bp4QWrnfInYRt3hdL9qZYiSoaeXHO0_Af-C9o9SFBafYX1FbAdq_JH8X_Rnt9oOX1s2Rjx5mNfQ7Vo8G5VCT12RjddlmbWZyENjBXQN7hdOUnV2x3gdRmC1p2q1AmBuqKYLWAurTVNIOaTE9_rx3janoNg-O_2jPSdlUdAJ0976T8O26DuLoAPMtazXUdIF4jsA07mPADOd2nEBbtEfsCskOU2tWvsjD9CJ6lditqyWjvrN')"></div>
+<div class="absolute inset-0 bg-secondary/10 pointer-events-none"></div>
+<div class="absolute bottom-2 left-2 bg-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">
+                            40.7128° N, 74.0060° W
+                        </div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="ambulance">ambulance</span>
+</div>
+<div>
+<div class="text-xs font-bold">Rig: Medic-72</div>
+<div class="text-xs text-on-surface-variant">ETA to Hospital: 12 min</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface-container border-t border-outline-variant md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant px-4 py-1 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-bold">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90">
+<span class="material-symbols-outlined" data-icon="personal_injury">personal_injury</span>
+<span class="text-label-bold">Patients</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant px-4 py-1 rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="ambulance">ambulance</span>
+<span class="text-label-bold">Fleet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant px-4 py-1 rounded-full transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="text-label-bold">Alerts</span>
+<span class="absolute top-1 right-5 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Drawing clinical-style waves for HR and SpO2
+        function drawWave(canvasId, color, speed, amplitude) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let offset = 0;
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = color;
+                
+                for (let x = 0; x < canvas.width; x++) {
+                    const y = (canvas.height / 2) + Math.sin((x + offset) * 0.05) * amplitude;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                
+                ctx.stroke();
+                offset += speed;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        window.addEventListener('load', () => {
+            drawWave('hr-canvas', '#005faf', 2.5, 10);
+            drawWave('spo2-canvas', '#006b1b', 1.5, 8);
+        });
+
+        // Simple scale effect for interactive cards
+        document.querySelectorAll('.clinical-card').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.99)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+    </script>
+</body></html>
